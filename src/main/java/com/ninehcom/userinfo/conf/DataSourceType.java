@@ -8,7 +8,7 @@ package com.ninehcom.userinfo.conf;
 public enum DataSourceType {
     gaDataSource("gaDataSource", "国安数据库"),
     tdDataSource("tdDataSource", "泰达数据库"),
-    shDataSource("shDataSource", "中超数据库");
+    shDataSource("shDataSource", "申花数据库");
     private String type;
     private String name;
 

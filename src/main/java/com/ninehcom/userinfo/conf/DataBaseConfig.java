@@ -1,6 +1,7 @@
 package com.ninehcom.userinfo.conf;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.ninehcom.userinfo.aop.DataSourceAop;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +9,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/11/2.
@@ -49,8 +53,15 @@ public class DataBaseConfig {
     private String tdPass;
 
     @Bean(name = "getDataSources")
-    public Map<Object,Object> getDataSources() throws PropertyVetoException {
+    public Map<Object,Object> getDataSources() throws PropertyVetoException, IOException {
         Map<Object, Object> targetDataSources = new HashMap<Object, Object>();
+//        Properties properties = new Properties();
+//        properties.load(DataSourceAop.class.getClassLoader().getResourceAsStream("test.properties"));
+//        Set<Object> set = properties.keySet();
+//        for (Object obj:set
+//                ) {
+//            targetDataSources.put(properties.get(obj),gaDataSource());
+//        }
         targetDataSources.put(DataSourceType.gaDataSource.getType(),gaDataSource());
         targetDataSources.put(DataSourceType.tdDataSource.getType(),tdDataSource());
         targetDataSources.put(DataSourceType.shDataSource.getType(),shDataSource());
