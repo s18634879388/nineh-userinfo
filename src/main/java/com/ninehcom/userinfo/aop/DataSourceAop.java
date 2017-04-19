@@ -35,7 +35,6 @@ public class DataSourceAop {
                 }
             }
         }
-        log.info("---dataSource switch to：master---");
         return thisJoinPoint.proceed();
     }
 }
