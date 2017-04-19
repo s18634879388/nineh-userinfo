@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -53,18 +55,21 @@ public class DataBaseConfig {
     private String tdPass;
 
     @Bean(name = "getDataSources")
-    public Map<Object,Object> getDataSources() throws PropertyVetoException, IOException {
+    public Map<Object,Object> getDataSources() throws PropertyVetoException, IOException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
         Map<Object, Object> targetDataSources = new HashMap<Object, Object>();
-//        Properties properties = new Properties();
-//        properties.load(DataSourceAop.class.getClassLoader().getResourceAsStream("test.properties"));
-//        Set<Object> set = properties.keySet();
-//        for (Object obj:set
-//                ) {
-//            targetDataSources.put(properties.get(obj),gaDataSource());
-//        }
-        targetDataSources.put(DataSourceType.gaDataSource.getType(),gaDataSource());
-        targetDataSources.put(DataSourceType.tdDataSource.getType(),tdDataSource());
-        targetDataSources.put(DataSourceType.shDataSource.getType(),shDataSource());
+        Properties properties = new Properties();
+        properties.load(DataSourceAop.class.getClassLoader().getResourceAsStream("test.properties"));
+        Set<Object> set = properties.keySet();
+        DataBaseConfig dataBaseConfig = DataBaseConfig.class.newInstance();
+        for (Object obj:set
+                ) {
+            Method method = dataBaseConfig.getClass().getDeclaredMethod(String.valueOf(properties.get(obj)));
+            DataSource d = (DataSource) method.invoke(dataBaseConfig);
+            targetDataSources.put(properties.get(obj),d);
+        }
+//        targetDataSources.put(DataSourceType.gaDataSource.getType(),gaDataSource());
+//        targetDataSources.put(DataSourceType.tdDataSource.getType(),tdDataSource());
+//        targetDataSources.put(DataSourceType.shDataSource.getType(),shDataSource());
         return targetDataSources;
     }
 

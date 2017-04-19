@@ -1,7 +1,6 @@
 package com.ninehcom.userinfo.aop;
 
 import com.ninehcom.userinfo.conf.DataSourceContextHolder;
-import com.ninehcom.userinfo.conf.DataSourceType;
 import com.ninehcom.userinfo.controller.TestController;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
