@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
  * Created by shixiaoqi on 2017/4/13.
  */
 @SpringBootApplication
-//@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 public class Application {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Application.class);
