@@ -1,24 +1,67 @@
 server:
   port: 8082
 
+datasource:
 #国安测试库
-guoan_test:
-  url: jdbc:mysql://123.59.84.66:3306/guoan_new?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
-  driverClass: com.mysql.jdbc.Driver
-  user: guoan
-  password: rr7ZKIqHsdfje$9h
+  guoan_test:
+    url: jdbc:mysql://123.59.84.66:3306/guoan_new?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    username: guoan
+    password: rr7ZKIqHsdfje$9h
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQueryTimeout: 900000
+    validationQuery: SELECT SYSDATE() from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
 #泰达测试库
-td_test:
-  url: jdbc:mysql://120.132.61.35:3306/tianjinfc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
-  driverClass: com.mysql.jdbc.Driver
-  user: tjuser
-  password: GbqTq9Vzdfj#9h
+  td_test:
+    url: jdbc:mysql://120.132.61.35:3306/tianjinfc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    username: tjuser
+    password: GbqTq9Vzdfj#9h
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQueryTimeout: 900000
+    validationQuery: SELECT SYSDATE() from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
 #申花测试库
-sh_test:
-  url: jdbc:mysql://123.59.138.131:3306/shanghaifc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
-  driverClass: com.mysql.jdbc.Driver
-  user: shuser
-  password: j4R71LmKjf#9h
+  sh_test:
+    url: jdbc:mysql://123.59.138.131:3306/shanghaifc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    username: shuser
+    password: j4R71LmKjf#9h
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQueryTimeout: 900000
+    validationQuery: SELECT SYSDATE() from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
 
 mybatis:
   typeAliasesPackage: com.ninehcom
