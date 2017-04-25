@@ -6,8 +6,7 @@
 package com.ninehcom.userinfo.enums;
 
 /**
- *
- * @author Administrator
+ * Created by shixiaoqi on 2017/4/17.
  */
 public enum ConfigKeys {
 

@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+/**
+ * Created by shixiaoqi on 2017/4/17.
+ */
+
 @Aspect
 @Component
 public class DataSourceAop {

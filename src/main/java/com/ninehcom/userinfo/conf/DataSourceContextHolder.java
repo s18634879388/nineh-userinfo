@@ -3,7 +3,7 @@ package com.ninehcom.userinfo.conf;
 import java.util.logging.Logger;
 
 /**
- * Created by Administrator on 2016/11/11.
+ * Created by shixiaoqi on 2017/4/17.
  */
 public class DataSourceContextHolder {
     private static final Logger LOG = Logger.getLogger(DataSourceContextHolder.class.getName());

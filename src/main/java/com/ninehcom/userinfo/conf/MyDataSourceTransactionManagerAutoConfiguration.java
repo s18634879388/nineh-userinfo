@@ -10,7 +10,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Created by Administrator on 2016/11/11.
+ * Created by shixiaoqi on 2017/4/17.
  */
 @Configuration
 @EnableTransactionManagement

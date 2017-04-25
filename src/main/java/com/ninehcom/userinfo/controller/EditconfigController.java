@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Editconfig 的控制器，用于显示同时查询2个数据库的结果 * @author shenjizhe
- *
- * @version 1.0.0
+ * Created by shixiaoqi on 2017/4/17.
  */
 @RestController
 @RequestMapping(value = "/users")
