@@ -1,6 +1,11 @@
 server:
-  port: 8082
+  port: 8086
 
+UserCenter:
+  smsUrl: https://test-sms.9h-sports.com
+  userUrl: https://test-account.9h-sports.com
+  searchURL: http://shenhua-t.9h-sports.com:8984/search/v1/user/solr-update
+  SensitiveWordURL: http://123.59.84.71:8083/check
 datasource:
 #国安测试库
   guoan_test:

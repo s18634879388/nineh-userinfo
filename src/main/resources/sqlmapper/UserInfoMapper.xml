@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ninehcom.userinfo.mapper.UserInfoMapper">
+    <resultMap type="com.ninehcom.userinfo.entity.UserInfo" id="userInfoMap">
+        <id column="Id" property="Id"/>
+        <result column="PhoneNumber" property="PhoneNumber"/>
+        <result column="NickName" property="NickName"/>
+        <result column="Signature" property="Signature"/>
+        <result column="Portrait" property="Portrait"/>
+        <result column="Name" property="Name"/>
+        <result column="Sex" property="Sex"/>
+        <result column="Birthday" property="Birthday"/>
+        <result column="Provinceid" property="Provinceid"/>
+        <result column="Cityid" property="Cityid"/>
+        <result column="Districtid" property="Districtid"/>
+        <result column="Idnum" property="Idnum"/>
+        <result column="Extra" property="Extra"/>
+        <result column="CreatedAt" property="CreatedAt"/>
+        <result column="UpdatedAt" property="UpdatedAt"/>
+        <result column="DeletedAt" property="DeletedAt"/>
+        <result column="RoleId" property="RoleId"/>
+        <result column="ChangeNickNameTimes" property="ChangeNickNameTimes"/>
+        <result column="VIPInfo" property="VIPInfo"/>
+    </resultMap>
+    <resultMap type="com.ninehcom.userinfo.view.UserInfoWrapper" id="UserInfoWrapperMap">
+        <id column="Id" property="Id"/>
+        <result column="NickName" property="NickName"/>
+        <result column="Signature" property="Signature"/>
+        <result column="Portrait" property="Portrait"/>
+        <result column="Name" property="Name"/>
+        <result column="Sex" property="Sex"/>
+        <result column="Birthday" property="Birthday"/>
+        <result column="Provinceid" property="Provinceid"/>
+        <result column="Cityid" property="Cityid"/>
+        <result column="Districtid" property="Districtid"/>
+        <result column="Idnum" property="Idnum"/>
+        <result column="Extra" property="Extra"/>
+        <result column="RoleId" property="RoleId"/>
+        <result column="Level" property="Level"/>
+        <result column="Title" property="Title"/>
+        <result column="Score" property="Score"/>
+        <result column="Experience" property="Experience"/>
+        <result column="MaxDays" property="MaxDays"/>
+        <result column="LastTime" property="LastTime"/>
+        <result column="AttentionCount" property="AttentionCount"/>
+        <result column="FansCount" property="FansCount"/>
+        <result column="TopicCount" property="TopicCount"/>   
+        <result column="VIPInfo" property="VIPInfo"/>
+        <result column="ChangeNickNameTimes" property="ChangeNickNameTimes"/>
+    </resultMap>
+    <resultMap type="com.ninehcom.userinfo.entity.Tag" id="TagMap">
+        <id column="id" property="id"/>
+        <result column="key" property="key"/>
+        <result column="title" property="title"/>
+        <result column="icon_url" property="iconUrl"/>
+    </resultMap>
+    <select id="selectUserIdFromNHID" resultType="Long">
+        select userid from user_info where id=#{0}
+    </select>
+    <select id="selectNHIdFromUserId" resultType="String">
+        select id from user_info where userid=#{0}
+    </select>
+    <select id="selectUserInfoWrapperById" resultMap="UserInfoWrapperMap">
+        SELECT 
+        `user_info`.`Id` AS `Id`,`user_info`.`NickName` AS `NickName`,`user_info`.`Signature` AS `Signature`,`user_info`.`ChangeNickNameTimes` AS `ChangeNickNameTimes`,`user_info`.`VIPInfo` AS `VIPInfo`,`user_info`.`Portrait` AS `Portrait`,`user_info`.`Name` AS `Name`,`user_info`.`Sex` AS `Sex`,`user_info`.`Birthday` AS `Birthday`,`user_info`.`Provinceid` AS `Provinceid`,`user_info`.`Cityid` AS `Cityid`,`user_info`.`Districtid` AS `Districtid`,`user_info`.`Idnum` AS `Idnum`,`user_info`.`Extra` AS `Extra`,`user_info`.`RoleId` AS `RoleId`,
+        `user_statistics`.`Level` AS `Level`,`user_statistics`.`Title` AS `Title`,`user_statistics`.`Score` AS `Score`,`user_statistics`.`Experience` AS `Experience`,`user_statistics`.`MaxDays` AS `MaxDays`,`user_statistics`.`LastTime` AS `LastTime` ,
+        `user_statistics`.`AttentionCount` AS `AttentionCount`,`user_statistics`.`FansCount` AS `FansCount`,user_statistics.TopicCount AS TopicCount
+        FROM 
+        (`user_info` join `user_statistics` on((`user_info`.`Id` = `user_statistics`.`UserId`)))
+        WHERE
+        user_info.Id = #{0}
+    </select>
+    <select id="selectUserInfoWrapperByIds" resultMap="UserInfoWrapperMap" parameterType="java.util.List">
+        SELECT 
+        `user_info`.`Id` AS `Id`,`user_info`.`NickName` AS `NickName`,`user_info`.`Signature` AS `Signature`,`user_info`.`ChangeNickNameTimes` AS `ChangeNickNameTimes`,`user_info`.`VIPInfo` AS `VIPInfo`,`user_info`.`Portrait` AS `Portrait`,`user_info`.`Name` AS `Name`,`user_info`.`Sex` AS `Sex`,`user_info`.`Birthday` AS `Birthday`,`user_info`.`Provinceid` AS `Provinceid`,`user_info`.`Cityid` AS `Cityid`,`user_info`.`Districtid` AS `Districtid`,`user_info`.`Idnum` AS `Idnum`,`user_info`.`Extra` AS `Extra`,`user_info`.`RoleId` AS `RoleId`,
+        `user_statistics`.`Level` AS `Level`,`user_statistics`.`Title` AS `Title`,`user_statistics`.`Score` AS `Score`,`user_statistics`.`Experience` AS `Experience`,`user_statistics`.`MaxDays` AS `MaxDays`,`user_statistics`.`LastTime` AS `LastTime` ,
+        `user_statistics`.`AttentionCount` AS `AttentionCount`,`user_statistics`.`FansCount` AS `FansCount`,user_statistics.TopicCount AS TopicCount
+        FROM 
+        (`user_info` join `user_statistics` on((`user_info`.`Id` = `user_statistics`.`UserId`)))
+        <where>  
+            id in  
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="0">  
+                #{item, jdbcType=VARCHAR}
+            </foreach>  
+        </where> 
+        ORDER BY FIND_IN_SET(ID, 
+        <foreach item="item" collection="list" separator="," open="'" close="'" index="0">  
+            ${item}  
+        </foreach>  
+        )
+    </select>
+    <select id="selectTagByUserId" resultMap="TagMap">
+        SELECT
+        tag.id,
+        tag.`key`,
+        tag.title,
+        tag.icon_url
+        FROM
+        user_tag_relation
+        INNER JOIN tag ON tag.id = user_tag_relation.tag_id
+        WHERE
+        user_tag_relation.user_id = #{0}
+        ORDER BY
+        tag.id ASC
+    </select>
+    <select id="selectUserInfoById" resultType="com.ninehcom.userinfo.entity.UserInfo">
+        SELECT
+        *
+        FROM
+        user_info
+        WHERE
+        Id = #{0}
+    </select>
+    <insert id="insertUser">
+        INSERT INTO user_info
+        (Id,NickName, CreatedAt, UpdatedAt,ChangeNickNameTimes) 
+        VALUES ( #{0},#{1}, NOW(),NOW(),0);
+    </insert>
+    <insert id="insertUserInfo" parameterType="com.ninehcom.userinfo.entity.UserInfo">
+        INSERT user_info
+        (Id, PhoneNumber, NickName, Signature, Portrait, Name, Sex, Birthday, Provinceid, Cityid,Districtid, Idnum, Extra, CreatedAt, UpdatedAt, DeletedAt,ChangeNickNameTimes) 
+        VALUES 
+        (#{Id}, #{PhoneNumber}, #{NickName}, #{Signature}, #{Portrait}, #{Name}, #{Sex}, #{Birthday}, #{Provinceid}, #{Cityid},#{Districtid}, #{Idnum}, #{Extra}, NOW(), NOW(), NULL,0)
+    </insert>
+    <update id="updateUserNickName">
+        UPDATE user_info
+        SET 
+        NickName=#{1},
+        ChangeNickNameTimes = ChangeNickNameTimes+1,
+        UpdatedAt=NOW()
+        WHERE Id = #{0}
+    </update>
+    <update id="updateUserInfo">
+        UPDATE user_info
+        SET 
+        <if test="Signature != null">
+            Signature = #{ Signature },
+        </if>
+        <if test="Portrait != null">
+            Portrait = #{ Portrait },
+        </if>
+        <if test="Name != null">
+            Name = #{ Name },
+        </if>
+        <if test="Sex != null">
+            Sex = #{ Sex },
+        </if>
+        <if test="Birthday != null">
+            Birthday = #{ Birthday },
+        </if>
+        <if test="Provinceid != null">
+            Provinceid = #{ Provinceid },
+        </if>
+        <if test="Cityid != null">
+            Cityid = #{ Cityid },
+        </if>
+        <if test="Districtid != null">
+            Districtid = #{ Districtid },
+        </if>
+        <if test="Idnum != null">
+            Idnum = #{ Idnum },
+        </if>
+        <if test="Extra != null">
+            Extra = #{ Extra },
+        </if>
+        UpdatedAt=NOW()
+        WHERE Id = #{ Id }
+    </update>
+    <update id="updateUserMobileNumber">
+        UPDATE 
+        user_info 
+        SET 
+        PhoneNumber=#{1},
+        UpdatedAt=NOW()
+        WHERE Id = #{0}
+    </update>
+    <select id="selectNickNameChangeTime" resultType="int">
+        SELECT
+        ChangeNickNameTimes
+        FROM
+        user_info
+        WHERE
+        Id = #{0}
+    </select>
+    <select id="selectUserPrivilege" resultType="int">
+        SELECT
+        count(*)
+        FROM
+        privilege_role_relation
+        INNER JOIN user_role_relation ON privilege_role_relation.role_id = user_role_relation.role_id
+        WHERE
+        user_role_relation.user_id = #{0} AND
+        privilege_role_relation.prililege_key = #{1}
+    </select>
+    <select id="selectUserLike" resultMap="userInfoMap">
+        SELECT `user_info`.`Id` AS `Id`,`user_info`.`NickName` AS `NickName` from `user_info` where `user_info`.`NickName` LIKE #{0}
+    </select>
+
+</mapper>
+

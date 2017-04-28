@@ -1,6 +1,9 @@
 package com.ninehcom.userinfo.conf;
 
 import com.ninehcom.userinfo.mapper.EditconfigMapper;
+import com.ninehcom.userinfo.mapper.LevelMapper;
+import com.ninehcom.userinfo.mapper.UserInfoMapper;
+import com.ninehcom.userinfo.mapper.UserStatisticsMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -85,6 +88,21 @@ public class MybatisConfig {
     @Bean
     public EditconfigMapper editconfigMapper(){
         return sqlSessionTemplate.getMapper(EditconfigMapper.class);
+    }
+
+    @Bean
+    public LevelMapper levelMapper(){
+        return sqlSessionTemplate.getMapper(LevelMapper.class);
+    }
+
+    @Bean
+    public UserInfoMapper userInfoMapper(){
+        return sqlSessionTemplate.getMapper(UserInfoMapper.class);
+    }
+
+    @Bean
+    public UserStatisticsMapper userStatisticsMapper(){
+        return sqlSessionTemplate.getMapper(UserStatisticsMapper.class);
     }
 
 

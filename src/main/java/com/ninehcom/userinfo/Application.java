@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * Created by shixiaoqi on 2017/4/13.
  */
 @SpringBootApplication
+@ComponentScan(basePackages={"com.ninehcom.userinfo","com.ninehcom.common"})
 public class Application {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Application.class);

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ninehcom.userinfo.mapper.UserStatisticsMapper">
+    <resultMap type="com.ninehcom.userinfo.entity.UserStatistics" id="userStatisticsMap">
+        <id column="UserId" property="UserId"/>
+        <result column="Level" property="Level"/>
+        <result column="Title" property="Title"/>
+        <result column="Score" property="Score"/>
+        <result column="Experience" property="Experience"/>
+        <result column="MaxDays" property="MaxDays"/>
+        <result column="LastTime" property="LastTime"/>
+        <result column="NickName" property="NickName"/>
+        <result column="Portrait" property="Portrait"/>
+        <result column="AttentionCount" property="AttentionCount"/>
+        <result column="FansCount" property="FansCount"/>
+        <result column="TopicCount" property="TopicCount"/>
+        <result column="Rank" property="Rank"/>
+        <result column="Timestamp" property="timeStamp"/>
+    </resultMap>
+    <select id="selectCountByDate" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM
+        user_statistics
+        WHERE
+        DATE(user_statistics.LastTime)=DATE(#{0})
+    </select>
+    <select id="selectUserStatisticsByUserId" resultType="com.ninehcom.userinfo.entity.UserStatistics">
+        SELECT
+        user_statistics.UserId,
+        user_statistics.`Level`,
+        user_statistics.`Title`,
+        user_statistics.Score,
+        user_statistics.Experience,
+        user_statistics.MaxDays,
+        user_statistics.LastTime,
+        user_statistics.AttentionCount,
+        user_statistics.FansCount,
+        user_statistics.TopicCount,
+        user_statistics.Rank,
+        user_info.NickName,
+        user_info.Portrait
+        FROM
+        user_statistics
+        INNER JOIN user_info 
+        ON user_statistics.UserId = user_info.Id
+        WHERE
+        user_statistics.UserId = #{0}
+    </select>
+    <select id="selectUserStatisticsRankList" resultMap="userStatisticsMap">
+        SELECT
+        user_statistics.UserId,
+        user_statistics.`Level`,
+        user_statistics.`Title`,
+        user_statistics.Score,
+        user_statistics.Experience,
+        user_statistics.MaxDays,
+        user_statistics.LastTime,
+        user_statistics.AttentionCount,
+        user_statistics.FansCount,
+        user_statistics.TopicCount,
+        user_statistics.Rank,
+        user_info.NickName,
+        user_info.Portrait
+        FROM
+        user_statistics
+        INNER JOIN user_info 
+        ON user_statistics.UserId = user_info.Id
+        WHERE
+        user_statistics.MaxDays != 0 
+        AND 
+        user_statistics.Rank &gt; 0
+        AND
+        user_statistics.Rank &lt;=#{0}
+        ORDER BY
+        user_statistics.Rank ASC
+        LIMIT 0, #{0}
+    </select>
+    <insert id="insertUserStatistics" parameterType="com.ninehcom.userinfo.entity.UserStatistics">
+        INSERT INTO user_statistics 
+        (UserId,Level,Title) 
+        VALUES 
+        (#{0},#{1},#{2})
+    </insert>
+    <update id ="updateUserStatistics" parameterType="com.ninehcom.userinfo.entity.UserStatistics">
+        UPDATE user_statistics
+        <set>
+            <if test="Level != null">
+                Level = #{ Level },
+            </if>
+            <if test="Title != null">
+                Title = #{ Title },
+            </if>
+            <if test="Score != null">
+                Score = #{ Score },
+            </if>
+            <if test="Experience != null">
+                Experience = #{ Experience },
+            </if>
+            <if test="MaxDays != null">
+                MaxDays = #{ MaxDays },
+            </if>
+            <if test="LastTime != null">
+                LastTime = #{ LastTime },
+            </if>
+            <if test="timeStamp != null">
+                Timestamp = #{timeStamp}
+            </if>
+        </set>
+        WHERE 
+        UserId = #{UserId}
+    </update>
+</mapper>
+
