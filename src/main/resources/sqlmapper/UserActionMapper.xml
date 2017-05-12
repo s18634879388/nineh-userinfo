@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ninehcom.userinfo.mapper.UserActionMapper">
+    <resultMap type="com.ninehcom.userinfo.entity.UserAction" id="userActionMap">
+        <id column="Id" property="Id"/>
+        <result column="Userid" property="Userid"/>
+        <result column="Time" property="Time"/>
+        <result column="Type" property="Type"/>
+        <result column="Param" property="Param"/>
+        <result column="Score" property="Score"/>
+    </resultMap>
+    <select id="selectUserActionByType" resultMap="userActionMap">
+        SELECT 
+        * 
+        FROM 
+        user_action
+        WHERE 
+        userid = #{0} AND
+        type = #{1}
+        ORDER BY
+        time ASC
+    </select>
+
+    <select id="selectUserActionByTypes" resultMap="userActionMap">
+        SELECT
+        *
+        FROM
+        user_action
+        WHERE
+        userid = #{0} AND
+        type in (1,9)
+        ORDER BY
+        time ASC
+    </select>
+    <select id="selectUserActionByLastDate"  resultType="int">
+        SELECT 
+        COUNT(*) 
+        FROM 
+        user_action
+        WHERE 
+        userid = #{0} AND
+        type = #{1} AND
+        DATE(DATE_ADD(Time,INTERVAL 1 DAY)) = DATE(#{2})
+        ORDER BY
+        time ASC
+    </select>
+    <select id="selectUserActionByMonth"  resultMap="userActionMap">
+        SELECT 
+        * 
+        FROM 
+        user_action
+        WHERE 
+        userid = #{0} AND
+        type in (1,9) AND
+        YEAR(time)=#{1} AND
+        MONTH(time)=#{2}
+        ORDER BY
+        time ASC
+    </select>
+    <insert id="insertUserAction" parameterType="com.ninehcom.userinfo.entity.UserAction">
+        INSERT INTO user_action 
+        (Id, Userid, Time, Type, Param,Score,Timestamp)
+        VALUES 
+        (UUID(), #{Userid}, #{Time}, #{Type}, #{Param},#{Score},#{timeStamp})
+    </insert>
+    <select id="selectUserActionByDate" resultMap="userActionMap">
+        SELECT 
+        * 
+        FROM 
+        user_action
+        WHERE 
+        userid = #{0} AND
+        type in (1,9) AND
+        DATE(time)=DATE(#{1})
+        ORDER BY
+        time ASC
+    </select>
+    <select id="selectUserActionByDate1" resultMap="userActionMap">
+        SELECT
+        *
+        FROM
+        user_action
+        WHERE
+        userid = #{0} AND
+        type in (1,9) AND
+        DATE(time)=DATE(#{1})
+        ORDER BY
+        time ASC
+    </select>
+    <select id="selectLeaguecalendarByDate" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM
+        leaguecalendar
+        WHERE
+        (HomeTeamId =#{0} OR
+        GuestTeamId =#{0} ) AND
+        DATE(LeagueTime) = DATE(#{1})
+    </select>
+</mapper>
+

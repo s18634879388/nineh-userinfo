@@ -1,21 +1,24 @@
 package com.ninehcom.userinfo.service;
 
+import com.ninehcom.common.enums.ErrorCode;
+import com.ninehcom.common.util.Result;
 import com.ninehcom.userinfo.entity.Editconfig;
-import com.ninehcom.userinfo.enums.ConfigKeys;
 import com.ninehcom.userinfo.mapper.EditconfigMapper;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
+import com.ninehcom.userinfo.enums.ConfigKeys;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Editconfig的Service
@@ -26,7 +29,7 @@ import java.util.List;
 @Service
 public class EditconfigService {
 
-//    private Map<String, String> mapping = null;
+    //    private Map<String, String> mapping = null;
     @Autowired
     private EditconfigMapper editconfigMapper;
     private DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -68,11 +71,6 @@ public class EditconfigService {
 //            initConfig(configs.get(i));
 //        }
 //
-////        this.configs = editconfigMapper.selectAllEditconfig();
-////        mapping = new HashMap<>();
-////        for (Editconfig config : this.configs) {
-////            mapping.put(config.getKey(), config.getValue());
-////        }
 //        try {
 //            editconfigMapper.initAction(1, "签到", "用户签到", 1, 1);
 //            editconfigMapper.initAction(2, "回复", "回复帖子", 1, 1);
@@ -94,12 +92,12 @@ public class EditconfigService {
 //        }
 //    }
 
-    public String getConfigValue(String key) {
+    public Result getConfigValue(String key) {
         Editconfig config = editconfigMapper.selectEditconfig(key);
         if (config != null) {
-            return config.getValue();
+            return Result.Result(ErrorCode.Success, config.getValue());
         } else {
-            return null;
+            return Result.Fail(ErrorCode.ConfigKeyNotContains);
         }
     }
 

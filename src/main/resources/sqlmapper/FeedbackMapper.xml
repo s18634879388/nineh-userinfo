@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ninehcom.userinfo.mapper.FeedbackMapper">
+    <resultMap type="com.ninehcom.userinfo.entity.Feedback" id="feedbackMap">
+        <id column="Id" property="Id"/>
+        <result column="UserId" property="UserId"/>
+        <result column="Time" property="Time"/>
+        <result column="Content" property="Content"/>
+        <result column="Type" property="Type"/>
+        <result column="ReadTime" property="ReadTime"/>
+        <result column="Readed" property="Readed"/>
+        <result column="Record" property="Record"/>
+    </resultMap>
+    <select id="selectAllFeedback" resultMap="feedbackMap">
+        SELECT
+        * 
+        FROM 
+        feedback
+        <where>
+            <if test="_parameter != -1">
+                feedback.Readed = #{0}
+            </if>
+        </where>
+        ORDER BY
+        Time DESC
+    </select>
+    <insert id="insertFeedback">
+        INSERT INTO 
+        feedback
+        (Id, UserId, Time, Content) 
+        VALUES 
+        (UUID(), #{0}, NOW(),#{1})
+    </insert>
+    <update id="updateFeedback">
+        UPDATE 
+        feedback
+        SET 
+        Type=#{1}, 
+        Record=#{2},
+        ReadTime=NOW(), 
+        Readed=1
+        WHERE
+        Id=#{0}
+    </update>
+</mapper>
+

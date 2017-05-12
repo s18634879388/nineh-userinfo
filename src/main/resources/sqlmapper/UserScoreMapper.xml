@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ninehcom.userinfo.mapper.UserScoreMapper">
+    <resultMap type="com.ninehcom.userinfo.entity.UserScore" id="userScoreMap">
+        <id column="Userid" property="Userid"/>
+        <result column="Date" property="Date"/>
+        <result column="Score" property="Score"/>
+        <result column="Experience" property="Experience"/>
+    </resultMap>
+    <select id="selectAllUserScore" resultMap="userScoreMap">
+        SELECT 
+        * 
+        FROM 
+        user_score
+    </select>
+    <select id="selectUserScoreByIDDate" resultType="com.ninehcom.userinfo.entity.UserScore">
+        SELECT 
+        * 
+        FROM 
+        user_score
+        WHERE 
+        Userid=#{0} AND
+        DATE(Date)=DATE(#{1})
+    </select>
+    <insert id="insertUserScoreByIDDate" parameterType="com.ninehcom.userinfo.entity.UserScore">
+        INSERT INTO 
+        user_score
+        (Userid, Date, Score, Experience)
+        VALUES
+        (#{Userid},DATE(#{Date}), #{Score},#{Experience})
+    </insert>
+    <update id="updateUserScoreByIDDate" parameterType="com.ninehcom.userinfo.entity.UserScore">
+        UPDATE user_score
+        SET 
+        Score=#{Score},
+        Experience=#{Experience} 
+        WHERE 
+        Userid=#{Userid} AND
+        DATE(Date)=DATE(#{Date})
+    </update>
+</mapper>
+

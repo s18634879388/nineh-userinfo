@@ -18,6 +18,11 @@ public class MyAbstractRoutingDataSource extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
         Object typeKey = DataSourceContextHolder.getJdbcType();
+        //设置默认数据源
+        if (typeKey==null){
+            DataSourceContextHolder.setDataSource(DataSourceType.shDataSource);
+            typeKey = DataSourceContextHolder.getJdbcType();
+        }
         LOG.info("数据源切换到----->"+typeKey);
         return typeKey;
     }

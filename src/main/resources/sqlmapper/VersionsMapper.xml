@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ninehcom.userinfo.mapper.VersionsMapper">
+    <resultMap type="com.ninehcom.userinfo.entity.Versions" id="versionsMap">
+        <id column="Id" property="Id"/>
+        <result column="VersionsTypeId" property="VersionsTypeId"/>
+        <result column="VersionsTypeName" property="VersionsTypeName"/>
+        <result column="VersionNum" property="VersionNum"/>
+        <result column="LatestVersionNum" property="LatestVersionNum"/>
+        <result column="LatestURL" property="LatestURL"/>
+        <result column="LatestVersionInfo" property="LatestVersionInfo"/>
+        <result column="SizeText" property="SizeText"/>
+        <result column="ForceUpdateTip" property="ForceUpdateTip"/>
+    </resultMap>
+    <select id="selectAllVersions" resultMap="versionsMap">
+        select * from versions
+    </select>
+    <select id="selectVersionByType" resultMap="versionsMap">
+        select * from versions
+        where
+        VersionsTypeId = #{0}
+    </select>
+</mapper>
+
