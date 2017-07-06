@@ -2,6 +2,8 @@ package com.ninehcom.userinfo.service;
 
 import com.ninehcom.common.enums.ErrorCode;
 import com.ninehcom.common.util.Result;
+import com.ninehcom.userinfo.agent.UnionClubAgent;
+import com.ninehcom.userinfo.conf.EditConfigInit;
 import com.ninehcom.userinfo.controller.ItemController;
 import com.ninehcom.userinfo.entity.Item;
 import com.ninehcom.userinfo.entity.UserAction;
@@ -10,12 +12,16 @@ import com.ninehcom.userinfo.entity.UserStatistics;
 import com.ninehcom.userinfo.enums.ConfigKeys;
 import com.ninehcom.userinfo.mapper.UserActionMapper;
 import com.ninehcom.userinfo.mapper.UserInfoMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * UserAction的Service
@@ -36,13 +42,24 @@ public class UserActionService {
     @Autowired
     private UserStatisticsService userStatisticsService;
     @Autowired
-    EditconfigService editconfigService;
-    @Autowired
     private UserScoreService userScoreService;
     @Autowired
     private UserInfoMapper userInfoMapper;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private UnionClubAgent unionClubAgent;
+    @Autowired
+    private EditConfigInit editConfigInit;
+    private Logger logger = LoggerFactory.getLogger(UserActionService.class);
+    private Date startTime;
+    private String timeText;
+    private Random radom = new Random();
+    private Random rand = new Random();
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    private String signRedisKey = "user_dosign_appid_"; //key值命名----------
+
 
     @Autowired
     private ItemController itemController;
@@ -105,59 +122,109 @@ public class UserActionService {
     private List<String> userList = new ArrayList();
 
     // 签到
-    public Result doSign(String userId, Date date) {
-
-        if (userId == null || userId.isEmpty()) {
-            return Result.Fail(ErrorCode.UserIdIsEmpty);
-        }
-
-        if (userList.contains(userId)) {
-            return Result.Fail(ErrorCode.UserSigning);
-        }
-        userList.add(userId);
-
+    public Result doSign(String userId, Date date,String appid) {
         try {
-            Date startTime = editconfigService.getDate(ConfigKeys.SystemStartTime);
+            logger.info("doSign enter userId------------>"+userId+"---------------->enter doSign");
+            if (userId == null || userId.isEmpty()) {
+                logger.info("doSign Error userId--------->"+userId+"------ErrorCode------->"+ErrorCode.UserIdIsEmpty);
+                return Result.Fail(ErrorCode.UserIdIsEmpty);
+            }
+            startTime = editConfigInit.getDate(ConfigKeys.SystemStartTime,appid);
             if (startTime != null && startTime.after(date)) {
+                logger.info("doSign Error userId--------->"+userId+"-----ErrorCode------->"+ErrorCode.SignDateTooEarly);
                 return Result.Fail(ErrorCode.SignDateTooEarly);
             }
-            Date now = date;
-            List<UserAction> actions = userActionMapper.selectUserActionByDate(userId,now);
-            if (actions != null && actions.size() == 1) {
-                return Result.Fail(ErrorCode.UserSignedInToday);
-            } else {
-                _Score _score = calcScore(userId, now);
-                int ret = doUserAction(userId, 1, now, null, _score.score,now.getTime());
-                if (ret == 1) {
-                    int maxDays = getUserContinuousSignInDay(userId);
-                    Result r = userScoreService.addScore(userId, now, _score.score, _score.score);
-                    if (r.isSuccess()) {
-                        UserStatistics statistics = new UserStatistics();
-                        statistics.setUserId(userId);
-                        statistics.setMaxDays(maxDays);
-                        statistics.setLastTime(now);
-                        statistics.setTimeStamp(now.getTime());
-                        r = userStatisticsService.updateUserStatistics(statistics);
-                        if (r.isSuccess()) {
-                            Integer count = userStatisticsService.selectCountByDate(now);
-                            HashMap<String, String> map = new HashMap<>();
-                            map.put("count", count.toString());
-                            map.put("score", _score.score.toString());
-                            map.put("isSequence", _score.isSequence.toString());
-                            map.put("isMatchDate", _score.isMatchDate.toString());
-                            r.setTag(map);
-                        }
-                        return r;
-                    } else {
-                        return r;
+            String day = "_"+format.format(date);
+            int ret;
+            _Score _score;
+            Integer count;
+            synchronized (this) {
+                List<UserAction> actions = userActionMapper.selectUserActionByDate(userId, date);
+                if (actions != null && actions.size() == 1) {
+                    logger.info("doSign Error userId--------->"+userId+"------ErrorCode------->"+ErrorCode.UserSignedInToday);
+                    return Result.Fail(ErrorCode.UserSignedInToday);
+                }
+                _score = calcScore(userId, date,appid);
+                String testRedis = stringRedisTemplate.opsForValue().get(signRedisKey+appid + day);
+                date = new Date();
+                count = (testRedis == null) ? 0 : Integer.parseInt(testRedis);
+                if (count < 300) {
+                    long l = stringRedisTemplate.opsForValue().increment(signRedisKey+appid + day, 1L);
+                    count = (int) l;
+                    if (count < 3) {
+                        stringRedisTemplate.expire(signRedisKey+appid + day, 3, TimeUnit.DAYS);
+
                     }
+                    ret = doUserAction(userId, 1, date, count, _score.score, date.getTime());
                 } else {
-                    return Result.Fail(ErrorCode.UserSignedFail);
+                    //加随机数
+                    count = doSignCount(day,appid);
+                    ret = doUserAction(userId, 1, date, count, _score.score, date.getTime());
                 }
             }
-        } finally {
-            userList.remove(userId);
+            if (ret == 1) {
+                int maxDays = getUserContinuousSignInDay(userId);
+                Result r = userScoreService.addScore(userId, date, _score.score, _score.score,appid);
+                if (r.isSuccess()) {
+                    UserStatistics statistics = new UserStatistics(userId, maxDays, date, date.getTime());
+                    r = userStatisticsService.updateUserStatistics(statistics);
+                    if (r.isSuccess()) {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("count", count.toString());
+                        map.put("score", _score.score.toString());
+                        map.put("isSequence", _score.isSequence.toString());
+                        map.put("isMatchDate", _score.isMatchDate.toString());
+                        r.setTag(map);
+                    }
+                    logger.info("doSign success AddScore success userId------------>"+userId+"---------------->enter doSign");
+                    return r;
+                } else {
+                    logger.info("doSign success AddScore Error userId------------>"+userId+"---------------->enter doSign");
+                    return r;
+                }
+            } else {
+                logger.info("doSign Error userId------------>"+userId+"-----ErrorCode----->"+ErrorCode.UserSignedFail);
+                return Result.Fail(ErrorCode.UserSignedFail);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("doSign unKnowError userId------------>"+userId+"-----ErrorCode----->"+ErrorCode.UserSignedFail);
+            return Result.Fail(ErrorCode.UserSignedFail);
         }
+    }
+    public int doSignCount(String day,String appid) {
+        int baseNum;
+        int randNum;
+        try {
+            timeText = editConfigInit.getValue(ConfigKeys.doSignCount,appid);
+            String[] values = timeText.split("-");
+            if (values.length == 1) {
+                baseNum = Integer.parseInt(values[0]);
+                randNum = 0;
+            } else if (values.length == 2) {
+                baseNum = Integer.parseInt(values[0]);
+                randNum = Integer.parseInt(values[1]) - baseNum;
+            } else {
+                baseNum = 1;
+                randNum = 0;
+            }
+        } catch (Exception ex) {
+            baseNum = 1;
+            randNum = 0;
+        }
+
+        int count;
+        if (randNum <= 0) {
+            count = baseNum;
+        } else {
+            count = rand.nextInt(randNum) + baseNum;
+        }
+        if (count <= 0) {
+            count = 1;
+        }
+        long l = stringRedisTemplate.opsForValue().increment(signRedisKey+appid + day, count);
+        return (int) l;
     }
 
 
@@ -169,11 +236,13 @@ public class UserActionService {
         public Boolean isMatchDate = false;
     }
 
-    private _Score calcScore(String userId, Date date) {
+    private _Score calcScore(String userId, Date date,String appid) throws Exception {
         _Score _socre = new _Score();
 
-        String teamId = editconfigService.getValue(ConfigKeys.TeamId);
-        int count = userActionMapper.selectLeaguecalendarByDate(teamId, date);
+//        String teamId = editconfigService.getValue(ConfigKeys.TeamId);
+        String teamId = editConfigInit.getValue(ConfigKeys.TeamId,appid);
+//        int count = userActionMapper.selectLeaguecalendarByDate(teamId, date);
+        int count = unionClubAgent.selectLeagueMatchByDate(date,teamId,appid);
         int continueCount = userActionMapper.selectUserActionByLastDate(userId, SigninActionType, date);
         int score = 1;
         if (count >= 1) {
@@ -199,12 +268,12 @@ public class UserActionService {
     }
 
     // 用户执行操作
-    private int doUserAction(String userId, int actionTypeId, Date date, String param, Integer score,Long timeStamp) {
+    private int doUserAction(String userId, int actionTypeId, Date date, Integer param, Integer score,Long timeStamp) {
         UserAction action = new UserAction(userId, actionTypeId, date, param, score ,timeStamp);
         return userActionMapper.insertUserAction(action);
     }
     //用户补签操作
-    public Result doAddSign(String userId, Date date) {
+    public Result doAddSign(String userId, Date date,String appid) {
         if(userId == null || userId.isEmpty()){
             return Result.Fail(ErrorCode.UserIdIsEmpty);
         }
@@ -242,7 +311,7 @@ public class UserActionService {
                 int ret = doUserAction(userId, AddSignActionType, now, null, Score,now.getTime());
                 if (ret == 1) {
                     int maxDays = getUserContinuousSignInDay(userId);
-                    Result r = userScoreService.addScore(userId, now, Score, Score);
+                    Result r = userScoreService.addScore(userId, now, Score, Score,appid);
                     if (r.isSuccess()) {
                         //更新用户表中的成绩积分等用户信息
                         UserStatistics statistics = new UserStatistics();

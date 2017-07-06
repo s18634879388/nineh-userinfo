@@ -76,3 +76,8 @@ mybatis:
 gauserinfo:
   datasource:
     version: 3.5.0.2
+spring:
+  redis:
+    host: 123.59.84.66
+    port: 6379
+    password: 123456

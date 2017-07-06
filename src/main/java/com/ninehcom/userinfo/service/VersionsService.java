@@ -2,6 +2,7 @@ package com.ninehcom.userinfo.service;
 
 import com.ninehcom.common.enums.ErrorCode;
 import com.ninehcom.common.util.Result;
+import com.ninehcom.userinfo.conf.EditConfigInit;
 import com.ninehcom.userinfo.entity.Version;
 import com.ninehcom.userinfo.entity.Versions;
 import com.ninehcom.userinfo.enums.ConfigKeys;
@@ -23,7 +24,7 @@ public class VersionsService {
     @Autowired
     private VersionsMapper versionsMapper;
     @Autowired
-    private EditconfigService editconfigService;
+    private EditConfigInit editConfigInit;
 
     //private HashMap<String, Versions> map;
 //    @PostConstruct
@@ -34,11 +35,13 @@ public class VersionsService {
 //            map.put(version.getId(), version);
 //        }
 //    }
-    private String getVerionURL(String systemtypeid) {
+    private String getVerionURL(String systemtypeid,String appid) {
         if (systemtypeid.compareTo("1") == 0) {
-            return editconfigService.getValue(ConfigKeys.AndroidLoadURL);
+//            return editconfigService.getValue(ConfigKeys.AndroidLoadURL);
+            return editConfigInit.getValue(ConfigKeys.AndroidLoadURL,appid);
         } else if (systemtypeid.compareTo("2") == 0) {
-            return editconfigService.getValue(ConfigKeys.IOSLoadURL);
+//            return editconfigService.getValue(ConfigKeys.IOSLoadURL);
+            return editConfigInit.getValue(ConfigKeys.IOSLoadURL,appid);
         }
         return null;
     }

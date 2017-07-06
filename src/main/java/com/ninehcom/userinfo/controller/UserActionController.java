@@ -1,7 +1,6 @@
 package com.ninehcom.userinfo.controller;
 
 import com.ninehcom.common.util.Result;
-import com.ninehcom.userinfo.service.EditconfigService;
 import com.ninehcom.userinfo.service.UserActionService;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -23,8 +22,6 @@ public class UserActionController {
     @Autowired
     UserActionService userActionService;
 
-    @Autowired
-    EditconfigService editconfigService;
 
     @ApiOperation(value = "签到", notes = "用户签到", position = 1)
     @ApiResponse(code = 20102, message = "用户签到数据添加失败")
@@ -38,7 +35,7 @@ public class UserActionController {
             date = new Date();
         }
         date = new Date();
-        return userActionService.doSign(userId,date);
+        return userActionService.doSign(userId,date,appId);
     }
     @ApiOperation(value = "用户补签", notes = "用户补签", position = 1)
     @ApiResponse(code = 20154, message = "用户补签数据添加失败")
@@ -50,7 +47,7 @@ public class UserActionController {
         if (date == null) {
             date = new Date();
         }
-        return userActionService.doAddSign(userId, date);
+        return userActionService.doAddSign(userId, date,appId);
     }
 
     @ApiOperation(value = "取得用户签到", notes = "按照月份取得用户签到", position = 2)

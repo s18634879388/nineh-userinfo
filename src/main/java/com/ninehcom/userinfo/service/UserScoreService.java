@@ -2,14 +2,13 @@ package com.ninehcom.userinfo.service;
 
 import com.ninehcom.common.enums.ErrorCode;
 import com.ninehcom.common.util.Result;
+import com.ninehcom.userinfo.conf.EditConfigInit;
 import com.ninehcom.userinfo.entity.UserScore;
 import com.ninehcom.userinfo.entity.UserStatistics;
 import com.ninehcom.userinfo.enums.ConfigKeys;
 import com.ninehcom.userinfo.mapper.UserScoreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,22 +26,12 @@ public class UserScoreService {
 
     @Autowired
     private UserStatisticsService userStatisticsService;
-
     @Autowired
-    private EditconfigService editconfigService;
+    private EditConfigInit editConfigInit;
+
     private int MaxScore;
     private int MaxExperience;
 
-    @PostConstruct
-    private void init() {
-        try {
-            MaxScore = editconfigService.getInt(ConfigKeys.MaxScore);
-            MaxExperience = editconfigService.getInt(ConfigKeys.MaxExperience);
-        } catch (Exception ex) {
-            MaxScore = Integer.MAX_VALUE;
-            MaxExperience = Integer.MAX_VALUE;
-        }
-    }
 
     private int getAddScore(int currentScore, int expectScore, int maxScore) {
         return Integer.min(maxScore - currentScore, expectScore);
@@ -94,12 +83,13 @@ public class UserScoreService {
         }
     }
 
-    public Result addScore(String userId, Date time, int score, int experience) {
+    public Result addScore(String userId, Date time, int score, int experience,String appid) {
         if (score < 0 || experience < 0) {
             return Result.Fail(ErrorCode.ScoreValidateFail);
         }
         UserScore userScore = userScoreMapper.selectUserScoreByIDDate(userId, time);
-
+        MaxScore = editConfigInit.getInt(ConfigKeys.MaxScore,appid);
+        MaxExperience = editConfigInit.getInt(ConfigKeys.MaxExperience,appid);
         int realScore = getAddScore(userScore != null ? userScore.getScore() : 0,
                 score,
                 MaxScore);

@@ -27,6 +27,8 @@ public enum ConfigKeys {
     CampaignStartTime("CampaignStartTime"),
     SystemStartTime("SystemStartTime"),
     EnterJoinUser("EnterJoinUser"),
+    UnionClubUrl("UnionClubUrl"),
+    doSignCount("doSignCount"),
     ;
     private String key;
 

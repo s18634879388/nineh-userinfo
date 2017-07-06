@@ -7,6 +7,7 @@ import com.ninehcom.userinfo.agent.SearchAgent;
 import com.ninehcom.userinfo.agent.SensitiveWordAgent;
 import com.ninehcom.userinfo.agent.SmsAgent;
 import com.ninehcom.userinfo.agent.UCAgent;
+import com.ninehcom.userinfo.conf.EditConfigInit;
 import com.ninehcom.userinfo.entity.Level;
 import com.ninehcom.userinfo.entity.LogInfo;
 import com.ninehcom.userinfo.entity.Tag;
@@ -41,7 +42,7 @@ public class UserInfoService {
     @Autowired
     private UserStatisticsMapper userStatisticsMapper;
     @Autowired
-    private EditconfigService editconfigService;
+    private EditConfigInit editConfigInit;
     @Autowired
     SearchAgent searchAgent;
     @Autowired
@@ -383,10 +384,11 @@ public class UserInfoService {
         return Result.getResult(response);
     }
 
-    private Result modifyUserNickName(String token, String userId, String value) throws Exception {
+    private Result modifyUserNickName(String token, String userId, String value,String appid) throws Exception {
         int limit = -1;
         try {
-            limit = editconfigService.getInt(ConfigKeys.NickNameMaxChangeTime);
+//            limit = editconfigService.getInt(ConfigKeys.NickNameMaxChangeTime);
+            limit = editConfigInit.getInt(ConfigKeys.NickNameMaxChangeTime,appid);
         } catch (Exception ex) {
             return Result.Fail(ErrorCode.NickNameLimitConfigEmpty);
         }
@@ -414,7 +416,7 @@ public class UserInfoService {
     /**
      * 完善个人信息
      */
-    public Result completeinfo(String token, UserInfo user) throws Exception {
+    public Result completeinfo(String token, UserInfo user,String appid) throws Exception {
         String response = null;
         try {
             response = ucAgent.getUserbytoken(token);
@@ -440,7 +442,7 @@ public class UserInfoService {
                             sensitive);
                 }
 
-                Result resultNick = modifyUserNickName(token, user.getId(), nickName);
+                Result resultNick = modifyUserNickName(token, user.getId(), nickName,appid);
                 if (resultNick != null) {
                     return resultNick;
                 }

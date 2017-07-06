@@ -18,8 +18,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<insert id="insertItem" >
 		insert into item (id,UserId,ItemTypeKey,IsUsed,IsDeleted,RelatedId,InvalidAt,CreatedAt,UpdatedAt) values (#{itemId},#{userId},#{itemTypeKey},#{isUsed},0,#{relatedId},#{invalidAt},#{createdAt},#{updatedAt})
 		</insert>		
+		<!--<select id="userItemList" resultMap="itemMap">-->
+		<!--select * from item where UserId = #{0} and IsDeleted != 1-->
+		<!--</select>-->
+
 		<select id="userItemList" resultMap="itemMap">
-		select * from item where UserId = #{0} and IsDeleted != 1
+			select t.* from (select *,count(*) as count  from item where UserId = #{userId} and IsDeleted != 1 group by ItemTypeKey) t, draw_type d where t.ItemTypeKey=d.draw_type_key order by d.rank
 		</select>
 		<select id="userSupplementaryList"  resultMap="itemMap">
 		select * from item where UserId = #{0} and IsDeleted != 1 and ItemTypeKey = #{1}

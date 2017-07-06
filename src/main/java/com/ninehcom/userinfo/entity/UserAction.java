@@ -28,7 +28,7 @@ public class UserAction implements Serializable{
         return UUID.randomUUID().toString();
     }
 
-    public UserAction(String Userid, int Type, Date Time, String Param, Integer Score, Long timeStamp) {
+    public UserAction(String Userid, int Type, Date Time, Integer Param, Integer Score, Long timeStamp) {
         this.Id = generationId();
         this.Userid = Userid;
         this.Time = Time;
@@ -79,14 +79,14 @@ public class UserAction implements Serializable{
         this.Type = Type;
     }
 
-    private String Param;
+    private Integer Param;
 
-    public String getParam() {
+    public Integer getParam() {
         return Param;
     }
 
-    public void setParam(String Param) {
-        this.Param = Param;
+    public void setParam(Integer param) {
+        Param = param;
     }
 
     private int Score;

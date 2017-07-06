@@ -74,19 +74,20 @@ public class ItemService {
 	public List<Item> userItemList(String userId){
 //		List<Item> userItemList = itemDao.userItemList(userId);
 		List<Item> userItemList = itemMapper.userItemList(userId);
-		List<Item> supplementaryList = new ArrayList<Item>();
-		 for (int i = userItemList.size()-1;i>=0;i--) {
-			 Item item = userItemList.get(i);
-			 if (ItemType.SupplementaryCard.getKey().equals(item.getItemTypeKey())) {
-				 supplementaryList.add(item);
-				 userItemList.remove(item);
-			 }
-		 }
-		 if (supplementaryList.size()>0) {
-			 Item supplementary =  supplementaryList.get(0);
-			 supplementary.setCount(supplementaryList.size());
-			 userItemList.add(0, supplementary);
-		 }
+
+//		List<Item> supplementaryList = new ArrayList<Item>();
+//		 for (int i = userItemList.size()-1;i>=0;i--) {
+//			 Item item = userItemList.get(i);
+//			 if (ItemType.SupplementaryCard.getKey().equals(item.getItemTypeKey())) {
+//				 supplementaryList.add(item);
+//				 userItemList.remove(item);
+//			 }
+//		 }
+//		 if (supplementaryList.size()>0) {
+//			 Item supplementary =  supplementaryList.get(0);
+//			 supplementary.setCount(supplementaryList.size());
+//			 userItemList.add(0, supplementary);
+//		 }
 		 //UserInfo user = userInfoMapper.selectUserInfoById(userId) ;
 //		 Item bindBageCard = user._getBadgeCard();
 //		 for (Item item : userItemList) {

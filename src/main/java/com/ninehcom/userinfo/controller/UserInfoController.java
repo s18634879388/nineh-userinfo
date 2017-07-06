@@ -4,7 +4,6 @@ import com.ninehcom.common.util.RequestUtils;
 import com.ninehcom.common.util.Result;
 import com.ninehcom.userinfo.entity.LogInfo;
 import com.ninehcom.userinfo.entity.UserInfo;
-import com.ninehcom.userinfo.service.EditconfigService;
 import com.ninehcom.userinfo.service.UserInfoService;
 import com.wordnik.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -303,7 +302,7 @@ public class UserInfoController {
             @RequestHeader("token") String token,
             @RequestBody UserInfo user,@RequestHeader(value = "appId") String appId
     ) throws Exception {
-        return userService.completeinfo(token, user);
+        return userService.completeinfo(token, user,appId);
     }
 
     /**

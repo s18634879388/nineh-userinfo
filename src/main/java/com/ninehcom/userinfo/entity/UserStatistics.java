@@ -23,6 +23,13 @@ Rank                          用户排名
  */
 @Entity
 public class UserStatistics implements Serializable{
+    public UserStatistics(){}
+    public UserStatistics(String userId, int maxDays, Date date, long time) {
+        this.UserId = userId;
+        this.MaxDays = maxDays;
+        this.LastTime = date;
+        this.timeStamp = time;
+    }
 
     @Id
     private String UserId;

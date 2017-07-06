@@ -5,6 +5,7 @@
  */
 package com.ninehcom.userinfo.agent;
 
+import com.ninehcom.userinfo.conf.EditConfigInit;
 import com.ninehcom.userinfo.enums.ConfigKeys;
 import com.ninehcom.userinfo.service.EditconfigService;
 import com.ninehcom.userinfo.util.HttpUtils;
@@ -30,20 +31,17 @@ public class SmsAgent {
     private  String smsUrl;
 
     @Autowired
-    private EditconfigService configService;
+    private EditConfigInit editConfigInit;
 
     @Autowired
     ConnectAgent agent;
 
-//    @PostConstruct
-//    private void init() {
-//        smsUrl = configService.getValue(ConfigKeys.SmsUrl);
-//    }
 
     public String snedMessage(String mobilenum, String appid, String contents) throws Exception {
 //        smsUrl = configService.getValue(ConfigKeys.SmsUrl);
         String path = "/smsservice/send";
-        String CheckCodeText = configService.getValue(ConfigKeys.CheckCodeText);
+//        String CheckCodeText = configService.getValue(ConfigKeys.CheckCodeText);
+        String CheckCodeText = editConfigInit.getValue(ConfigKeys.CheckCodeText,appid);
         contents = CheckCodeText.replace("%s", contents);
         Map<String,String> bodys = new HashMap<>();
         bodys.put("mobilenum",mobilenum);
@@ -64,7 +62,8 @@ public class SmsAgent {
     public String snedMessage2(String mobilenum, String appid, String content1,String content2) throws Exception {
 //        smsUrl = configService.getValue(ConfigKeys.SmsUrl);
         String path = "/smsservice/send";
-        String EnterJoinUser = configService.getValue(ConfigKeys.EnterJoinUser);
+//        String EnterJoinUser = configService.getValue(ConfigKeys.EnterJoinUser);
+        String EnterJoinUser = editConfigInit.getValue(ConfigKeys.EnterJoinUser,appid);
         String contents;
         contents = EnterJoinUser.replace("%s", content1);
         contents = contents.replace("%a",content2);

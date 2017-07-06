@@ -2,6 +2,7 @@ package com.ninehcom.userinfo.service;
 
 import com.ninehcom.common.util.Result;
 import com.ninehcom.userinfo.agent.SmsAgent;
+import com.ninehcom.userinfo.conf.EditConfigInit;
 import com.ninehcom.userinfo.entity.Level;
 import com.ninehcom.userinfo.entity.Phonelist;
 import com.ninehcom.userinfo.enums.ConfigKeys;
@@ -28,7 +29,7 @@ public class LevelService {
     @Autowired
     private SmsAgent agent;
     @Autowired
-    private EditconfigService editconfigService;
+    private EditConfigInit editConfigInit;
 
     private ArrayList<Level> levelList;
 
@@ -38,7 +39,8 @@ public class LevelService {
 //    }
 
     public Result selectgroup(String appId) throws Exception {
-        String sendgroupText = editconfigService.getValue(ConfigKeys.SendGroupText);
+//        String sendgroupText = editconfigService.getValue(ConfigKeys.SendGroupText);
+        String sendgroupText = editConfigInit.getValue(ConfigKeys.SendGroupText,appId);
         try {
             ArrayList<Phonelist> list = LevelMapper.selectgroup();
             ArrayList<String> errList = new ArrayList();

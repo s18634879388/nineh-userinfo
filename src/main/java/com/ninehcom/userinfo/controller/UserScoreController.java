@@ -22,10 +22,11 @@ public class UserScoreController {
     @RequestMapping(value = "/addscore", method = RequestMethod.POST)
     @ResponseBody
     public Result addScore(@RequestBody UserScore score,@RequestHeader(value = "appId") String appId) {
-        return userScoreService.addScore(score.getUserid(),
+        return
+                userScoreService.addScore(score.getUserid(),
                 score.getDate(),
                 score.getScore(),
-                score.getExperience());
+                score.getExperience(),appId);
     }
 
     @RequestMapping(value = "/subscore", method = RequestMethod.POST)
