@@ -9,7 +9,8 @@ UserCenter:
 datasource:
 #国安测试库
   guoan_test:
-    url: jdbc:mysql://123.59.84.66:3306/guoan_new?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+#    url: jdbc:mysql://123.59.84.66:3306/guoan_new?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://10.10.189.224:3306/guoan_new?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
     username: guoan
     password: rr7ZKIqHsdfje$9h
     driver-class-name: com.mysql.jdbc.Driver
@@ -29,7 +30,8 @@ datasource:
     maxOpenPreparedStatements: 20
 #泰达测试库
   td_test:
-    url: jdbc:mysql://120.132.61.35:3306/tianjinfc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+#    url: jdbc:mysql://120.132.61.35:3306/tianjinfc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://10.10.233.192:3306/tianjinfc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
     username: tjuser
     password: GbqTq9Vzdfj#9h
     driver-class-name: com.mysql.jdbc.Driver
@@ -49,7 +51,8 @@ datasource:
     maxOpenPreparedStatements: 20
 #申花测试库
   sh_test:
-    url: jdbc:mysql://123.59.138.131:3306/shanghaifc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+#    url: jdbc:mysql://123.59.138.131:3306/shanghaifc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://10.10.101.17:3306/shanghaifc?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
     username: shuser
     password: j4R71LmKjf#9h
     driver-class-name: com.mysql.jdbc.Driver
