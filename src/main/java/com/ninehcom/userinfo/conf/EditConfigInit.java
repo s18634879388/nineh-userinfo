@@ -40,10 +40,8 @@ public class EditConfigInit {
         Properties properties = new Properties();
         properties.load(DataSourceAop.class.getClassLoader().getResourceAsStream("appid-clubid.properties"));
         Set keys =  properties.keySet();
-        int i = 0;
         for (Object key:keys
              ) {
-            i++;
             String value = (String) properties.get(key);
             logger.info("appid-clubid.properties value is : "+value);
             DataSourceContextHolder.setDataSource(value);
@@ -53,7 +51,7 @@ public class EditConfigInit {
                  ) {
                 editConfigKeyValue.put(editconfig.getKey(),editconfig.getValue());
             }
-            editConfigs.put(i+"",editConfigKeyValue);
+            editConfigs.put(key+"",editConfigKeyValue);
         }
     }
 
