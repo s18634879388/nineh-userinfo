@@ -164,14 +164,14 @@ public class UserInfoService {
             UserInfo userInfo = new UserInfo();
             userInfo.setId(userId);
             userInfo.setNickName(nickname);
-            try {
-                boolean flag = searchAgent.updateSearchWord(userInfo);
-                if (!flag){
-                    return Result.Fail(ErrorCode.SearchAgentUpdateFail);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                boolean flag = searchAgent.updateSearchWord(userInfo);
+//                if (!flag){
+//                    return Result.Fail(ErrorCode.SearchAgentUpdateFail);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }
         return result;
     }
@@ -472,10 +472,10 @@ public class UserInfoService {
             }
         }
 
-        if (searchAgent.canUse()) {
-            UserInfo originUser = userInfoMapper.selectUserInfoById(user.getId());
-            searchAgent.updateSearchWord(user);
-        }
+//        if (searchAgent.canUse()) {
+//            UserInfo originUser = userInfoMapper.selectUserInfoById(user.getId());
+//            searchAgent.updateSearchWord(user);
+//        }
 
         return result;
     }
@@ -530,14 +530,14 @@ public class UserInfoService {
                 user = new UserInfo();
                 user.setId(userId);
                 user.setNickName(nickname);
-                try {
-                   boolean flag = searchAgent.updateSearchWord(user);
-                    if (!flag){
-                        return Result.Fail(ErrorCode.SearchAgentUpdateFail);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                   boolean flag = searchAgent.updateSearchWord(user);
+//                    if (!flag){
+//                        return Result.Fail(ErrorCode.SearchAgentUpdateFail);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         }
         return result;
