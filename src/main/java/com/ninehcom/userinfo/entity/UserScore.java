@@ -27,42 +27,41 @@ public class UserScore implements Serializable {
     @Id
     private String Userid;
 
+    private Date Date;
+
+    private int Score;
+
+    private int Experience;
+
     public String getUserid() {
         return Userid;
     }
 
-    public void setUserid(String Userid) {
-        this.Userid = Userid;
+    public void setUserid(String userid) {
+        Userid = userid;
     }
 
-    private Date Date;
-
-    public Date getDate() {
+    public java.util.Date getDate() {
         return Date;
     }
 
-    public void setDate(Date Date) {
-        this.Date = Date;
+    public void setDate(java.util.Date date) {
+        Date = date;
     }
-
-    private int Score;
 
     public int getScore() {
         return Score;
     }
 
-    public void setScore(int Score) {
-        this.Score = Score;
+    public void setScore(int score) {
+        Score = score;
     }
-
-    private int Experience;
 
     public int getExperience() {
         return Experience;
     }
 
-    public void setExperience(int Experience) {
-        this.Experience = Experience;
+    public void setExperience(int experience) {
+        Experience = experience;
     }
-
 }

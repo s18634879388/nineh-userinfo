@@ -37,248 +37,251 @@ public class UserInfoWrapper implements Serializable {
 
     @Id
     private String Id;
-    public  String getId() {
-        return Id;
-    }
-    public void setId(String Id) {
-        this.Id = Id;
-    }
     
     private String ChangeNickNameTimes;
 
     private String NickName;
-    public  String getNickName() {
-        return NickName;
-    }
-    public void setNickName(String NickName) {
-        this.NickName = NickName;
-    }
 
     private String Signature;
-    public  String getSignature() {
-        return Signature;
-    }
-    public void setSignature(String Signature) {
-        this.Signature = Signature;
-    }
 
     private String Portrait;
-    public  String getPortrait() {
-        return Portrait;
-    }
-    public void setPortrait(String Portrait) {
-        this.Portrait = Portrait;
-    }
 
     private String Name;
-    public  String getName() {
-        return Name;
-    }
-    public void setName(String Name) {
-        this.Name = Name;
-    }
 
     private Integer Sex;
-    public  Integer getSex() {
-        return Sex;
-    }
-    public void setSex(Integer Sex) {
-        this.Sex = Sex;
-    }
 
     private Date Birthday;
-    public  Date getBirthday() {
-        return Birthday;
-    }
-    public void setBirthday(Date Birthday) {
-        this.Birthday = Birthday;
-    }
 
     private Integer Provinceid;
-    public  Integer getProvinceid() {
-        return Provinceid;
-    }
-    public void setProvinceid(Integer Provinceid) {
-        this.Provinceid = Provinceid;
-    }
 
     private Integer Cityid;
-    public  Integer getCityid() {
-        return Cityid;
-    }
-    public void setCityid(Integer Cityid) {
-        this.Cityid = Cityid;
-    }
     
     private Integer Districtid;
-    public  Integer getDistrictid() {
-        return Districtid;
-    }
-    public void setDistrictid(Integer Districtid) {
-        this.Districtid = Districtid;
-    }
 
     private String Idnum;
-    public  String getIdnum() {
-        return Idnum;
-    }
-    public void setIdnum(String Idnum) {
-        this.Idnum = Idnum;
-    }
 
     private String Extra;
-    public  String getExtra() {
-        return Extra;
-    }
-    public void setExtra(String Extra) {
-        this.Extra = Extra;
-    }
 
     private Integer RoleId;
-    public  Integer getRoleId() {
-        return RoleId;
-    }
-    public void setRoleId(Integer RoleId) {
-        this.RoleId = RoleId;
-    }
 
     private Integer Level;
-    public  Integer getLevel() {
-        return Level;
-    }
-    public void setLevel(Integer Level) {
-        this.Level = Level;
-    }
 
     private String Title;
-    public  String getTitle() {
-        return Title;
-    }
-    public void setTitle(String Title) {
-        this.Title = Title;
-    }
 
     private Integer Score;
-    public  Integer getScore() {
-        return Score;
-    }
-    public void setScore(Integer Score) {
-        this.Score = Score;
-    }
 
     private Integer Experience;
-    public  Integer getExperience() {
-        return Experience;
-    }
-    public void setExperience(Integer Experience) {
-        this.Experience = Experience;
-    }
 
     private Integer MaxDays;
-    public  Integer getMaxDays() {
-        return MaxDays;
-    }
-    public void setMaxDays(Integer MaxDays) {
-        this.MaxDays = MaxDays;
-    }
 
     private Date LastTime;
-    public  Date getLastTime() {
-        return LastTime;
-    }
-    public void setLastTime(Date LastTime) {
-        this.LastTime = LastTime;
-    }
 
     private Integer AttentionCount;
+
     private Integer FansCount;
-
-    /**
-     * @return the AttentionCount
-     */
-    public Integer getAttentionCount() {
-        return AttentionCount;
-    }
-
-    /**
-     * @param AttentionCount the AttentionCount to set
-     */
-    public void setAttentionCount(Integer AttentionCount) {
-        this.AttentionCount = AttentionCount;
-    }
-
-    /**
-     * @return the FansCount
-     */
-    public Integer getFansCount() {
-        return FansCount;
-    }
-
-    /**
-     * @param FansCount the FansCount to set
-     */   
-    public void setFansCount(Integer FansCount) {
-        this.FansCount = FansCount;
-    }
     
     private Integer TopicCount;
+    
+    private ArrayList<Tag> tagList;
+    
+    private String VIPInfo;
 
-    /**
-     * @return the TopicCount
-     */
-    public Integer getTopicCount() {
-        return TopicCount;
+    public String getId() {
+        return Id;
     }
 
-    /**
-     * @param TopicCount the TopicCount to set
-     */
-    public void setTopicCount(Integer TopicCount) {
-        this.TopicCount = TopicCount;
+    public void setId(String id) {
+        Id = id;
     }
 
-    /**
-     * @return the ChangeNickNameTimes
-     */
     public String getChangeNickNameTimes() {
         return ChangeNickNameTimes;
     }
 
-    /**
-     * @param ChangeNickNameTimes the ChangeNickNameTimes to set
-     */
-    public void setChangeNickNameTimes(String ChangeNickNameTimes) {
-        this.ChangeNickNameTimes = ChangeNickNameTimes;
+    public void setChangeNickNameTimes(String changeNickNameTimes) {
+        ChangeNickNameTimes = changeNickNameTimes;
     }
-    
-    private ArrayList<Tag> tagList;
 
-    /**
-     * @return the tagList
-     */
+    public String getNickName() {
+        return NickName;
+    }
+
+    public void setNickName(String nickName) {
+        NickName = nickName;
+    }
+
+    public String getSignature() {
+        return Signature;
+    }
+
+    public void setSignature(String signature) {
+        Signature = signature;
+    }
+
+    public String getPortrait() {
+        return Portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        Portrait = portrait;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public Integer getSex() {
+        return Sex;
+    }
+
+    public void setSex(Integer sex) {
+        Sex = sex;
+    }
+
+    public Date getBirthday() {
+        return Birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        Birthday = birthday;
+    }
+
+    public Integer getProvinceid() {
+        return Provinceid;
+    }
+
+    public void setProvinceid(Integer provinceid) {
+        Provinceid = provinceid;
+    }
+
+    public Integer getCityid() {
+        return Cityid;
+    }
+
+    public void setCityid(Integer cityid) {
+        Cityid = cityid;
+    }
+
+    public Integer getDistrictid() {
+        return Districtid;
+    }
+
+    public void setDistrictid(Integer districtid) {
+        Districtid = districtid;
+    }
+
+    public String getIdnum() {
+        return Idnum;
+    }
+
+    public void setIdnum(String idnum) {
+        Idnum = idnum;
+    }
+
+    public String getExtra() {
+        return Extra;
+    }
+
+    public void setExtra(String extra) {
+        Extra = extra;
+    }
+
+    public Integer getRoleId() {
+        return RoleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        RoleId = roleId;
+    }
+
+    public Integer getLevel() {
+        return Level;
+    }
+
+    public void setLevel(Integer level) {
+        Level = level;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public Integer getScore() {
+        return Score;
+    }
+
+    public void setScore(Integer score) {
+        Score = score;
+    }
+
+    public Integer getExperience() {
+        return Experience;
+    }
+
+    public void setExperience(Integer experience) {
+        Experience = experience;
+    }
+
+    public Integer getMaxDays() {
+        return MaxDays;
+    }
+
+    public void setMaxDays(Integer maxDays) {
+        MaxDays = maxDays;
+    }
+
+    public Date getLastTime() {
+        return LastTime;
+    }
+
+    public void setLastTime(Date lastTime) {
+        LastTime = lastTime;
+    }
+
+    public Integer getAttentionCount() {
+        return AttentionCount;
+    }
+
+    public void setAttentionCount(Integer attentionCount) {
+        AttentionCount = attentionCount;
+    }
+
+    public Integer getFansCount() {
+        return FansCount;
+    }
+
+    public void setFansCount(Integer fansCount) {
+        FansCount = fansCount;
+    }
+
+    public Integer getTopicCount() {
+        return TopicCount;
+    }
+
+    public void setTopicCount(Integer topicCount) {
+        TopicCount = topicCount;
+    }
+
     public ArrayList<Tag> getTagList() {
         return tagList;
     }
 
-    /**
-     * @param tagList the tagList to set
-     */
     public void setTagList(ArrayList<Tag> tagList) {
         this.tagList = tagList;
     }
-    
-    private String VIPInfo;
 
-    /**
-     * @return the VIPInfo
-     */
     public String getVIPInfo() {
         return VIPInfo;
     }
 
-    /**
-     * @param VIPInfo the VIPInfo to set
-     */
     public void setVIPInfo(String VIPInfo) {
         this.VIPInfo = VIPInfo;
     }
