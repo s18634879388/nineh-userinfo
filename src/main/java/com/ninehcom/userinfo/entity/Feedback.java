@@ -21,74 +21,82 @@ public class Feedback {
 
     @Id
     private String Id;
-    public  String getId() {
-        return Id;
-    }
-    public void setId(String Id) {
-        this.Id = Id;
-    }
 
     private String UserId;
-    public  String getUserId() {
-        return UserId;
-    }
-    public void setUserId(String UserId) {
-        this.UserId = UserId;
-    }
 
     private Date Time;
-    public  Date getTime() {
-        return Time;
-    }
-    public void setTime(Date Time) {
-        this.Time = Time;
-    }
 
     private String Content;
-    public  String getContent() {
-        return Content;
-    }
-    public void setContent(String Content) {
-        this.Content = Content;
-    }
 
     private String Type;
-    public  String getType() {
-        return Type;
-    }
-    public void setType(String Type) {
-        this.Type = Type;
-    }
 
     private Date ReadTime;
-    public  Date getReadTime() {
-        return ReadTime;
-    }
-    public void setReadTime(Date ReadTime) {
-        this.ReadTime = ReadTime;
-    }
 
     private boolean Readed;
-    public  boolean getReaded() {
-        return Readed;
-    }
-    public void setReaded(boolean Readed) {
-        this.Readed = Readed;
-    }
 
     private String Record;
 
-    /**
-     * @return the Record
-     */
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
+    public Date getTime() {
+        return Time;
+    }
+
+    public void setTime(Date time) {
+        Time = time;
+    }
+
+    public String getContent() {
+        return Content;
+    }
+
+    public void setContent(String content) {
+        Content = content;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
+
+    public Date getReadTime() {
+        return ReadTime;
+    }
+
+    public void setReadTime(Date readTime) {
+        ReadTime = readTime;
+    }
+
+    public boolean isReaded() {
+        return Readed;
+    }
+
+    public void setReaded(boolean readed) {
+        Readed = readed;
+    }
+
     public String getRecord() {
         return Record;
     }
 
-    /**
-     * @param Record the Record to set
-     */
-    public void setRecord(String Record) {
-        this.Record = Record;
+    public void setRecord(String record) {
+        Record = record;
     }
 }

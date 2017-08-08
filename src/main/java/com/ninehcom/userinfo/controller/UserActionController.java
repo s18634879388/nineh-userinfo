@@ -65,7 +65,8 @@ public class UserActionController {
     @ResponseBody
     public Result getUserActionByDate(
             @PathVariable("userId") String userId,
-            @RequestParam(value = "date", required = false) Date date,@RequestHeader(value = "appId") String appId) {
+            @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(value = "date", required = false) Date date,
+            @RequestHeader(value = "appId") String appId) {
         if (date == null) {
             date = new Date();
         }

@@ -41,45 +41,49 @@ public class UserAction implements Serializable{
     @Id
     private String Id;
 
+    private String Userid;
+
+    private Date Time;
+
+    private int Type;
+
+    private Integer Param;
+
+    private int Score;
+
+    private Long timeStamp;
+
     public String getId() {
         return Id;
     }
 
-    public void setId(String Id) {
-        this.Id = Id;
+    public void setId(String id) {
+        Id = id;
     }
-
-    private String Userid;
 
     public String getUserid() {
         return Userid;
     }
 
-    public void setUserid(String Userid) {
-        this.Userid = Userid;
+    public void setUserid(String userid) {
+        Userid = userid;
     }
-
-    private Date Time;
 
     public Date getTime() {
         return Time;
     }
 
-    public void setTime(Date Time) {
-        this.Time = Time;
+    public void setTime(Date time) {
+        Time = time;
     }
-
-    private int Type;
 
     public int getType() {
         return Type;
     }
 
-    public void setType(int Type) {
-        this.Type = Type;
+    public void setType(int type) {
+        Type = type;
     }
-
-    private Integer Param;
 
     public Integer getParam() {
         return Param;
@@ -89,17 +93,13 @@ public class UserAction implements Serializable{
         Param = param;
     }
 
-    private int Score;
-
     public int getScore() {
         return Score;
     }
 
-    public void setScore(int Score) {
-        this.Score = Score;
+    public void setScore(int score) {
+        Score = score;
     }
-
-    private Long timeStamp;
 
     public Long getTimeStamp() {
         return timeStamp;
