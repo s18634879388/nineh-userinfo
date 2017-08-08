@@ -97,4 +97,12 @@ public class UserStatisticsService {
             return Result.Success("取得个人统计信息成功", statics);
         }
     }
+
+    public Result updateUserTopicCount(String userId, int topicCount) {
+        UserStatistics userStatistics = new UserStatistics();
+        userStatistics.setUserId(userId);
+        userStatistics.setTopicCount(topicCount);
+        Result result = updateUserStatistics(userStatistics);
+        return result;
+    }
 }

@@ -38,4 +38,11 @@ public class UserStatisticsController {
     public Result getUserStatisticsList(@PathVariable("userId") String userId,@RequestHeader(value = "appId") String appId) {
         return userStatisticsService.getUserStatistics(userId);
     }
+
+    @RequestMapping(value = "/statistics/{userId}",method = RequestMethod.PUT)
+    public Result updateUserTopicCount(@PathVariable("userId") String userId,
+                                       @RequestHeader(value = "appId") String appId,
+                                       @RequestParam(value = "topicCount") int topicCount){
+        return userStatisticsService.updateUserTopicCount(userId,topicCount);
+    }
 }

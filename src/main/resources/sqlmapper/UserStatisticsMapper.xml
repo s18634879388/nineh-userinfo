@@ -106,10 +106,13 @@
                 LastTime = #{ LastTime },
             </if>
             <if test="timeStamp != null">
-                Timestamp = #{timeStamp}
+                Timestamp = #{timeStamp},
+            </if>
+            <if test="TopicCount != null">
+                TopicCount = #{TopicCount}
             </if>
         </set>
-        WHERE 
+        WHERE
         UserId = #{UserId}
     </update>
 </mapper>
