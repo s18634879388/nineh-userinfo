@@ -3,6 +3,7 @@ package com.ninehcom.userinfo.controller;
 import com.ninehcom.common.enums.ErrorCode;
 import com.ninehcom.common.util.Result;
 import com.ninehcom.userinfo.service.VersionsService;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class VersionsController {
 //    @Autowired
 //    VersionsRepository versionsRepository;
 
+    @ApiOperation(value = "检查当前版本",notes = "检查当前版本")
     @RequestMapping(value = "/validateversion", method = RequestMethod.POST)
     @ResponseBody
     public Result validateVersion(

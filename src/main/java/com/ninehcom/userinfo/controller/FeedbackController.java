@@ -55,6 +55,7 @@ public class FeedbackController {
         }
     }
 
+    @ApiOperation(value = "审阅反馈信息", notes = "审阅反馈信息", position = 15)
     @RequestMapping(value = "/reviewfeedback/{Id}/{Type}/{Record}", method = RequestMethod.POST)
     @ResponseBody
     public Result reviewFeedBack(

@@ -70,6 +70,27 @@ datasource:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
+#人和测试库
+  rh_test:
+    url: jdbc:mysql://123.59.84.66:3306/renhe_t?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+#    url: jdbc:mysql://10.10.212.230:3306/renhe_new?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    username: rhuser
+    password: Jh@G#4rwU&7b
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQueryTimeout: 900000
+    validationQuery: SELECT SYSDATE() from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
 
 mybatis:
   typeAliasesPackage: com.ninehcom

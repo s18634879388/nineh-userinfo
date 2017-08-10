@@ -40,6 +40,7 @@ public class DataBaseConfig {
 //        }
         targetDataSources.put(DataSourceType.gaDataSource.getType(),gaDataSource());
         targetDataSources.put(DataSourceType.tdDataSource.getType(),tdDataSource());
+        targetDataSources.put(DataSourceType.rhDataSource.getType(),rhDataSource());
         targetDataSources.put(DataSourceType.shDataSource.getType(),shDataSource());
         return targetDataSources;
     }
@@ -59,6 +60,11 @@ public class DataBaseConfig {
     @Bean(name = "tdDataSource")
     @ConfigurationProperties(prefix = "datasource.td_test")
     public DataSource tdDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+    @Bean(name = "rhDataSource")
+    @ConfigurationProperties(prefix = "datasource.rh_test")
+    public DataSource rhDataSource() {
         return DataSourceBuilder.create().build();
     }
 
